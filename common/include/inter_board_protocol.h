@@ -4,9 +4,10 @@
 
 #include <stdint.h>
 
-#define PROTOCOL_MAGIC_BYTE 0xAA  // Bajt startu ramki
-#define MSG_TYPE_DRONE_DATA 0x01  // Typ wiadomości: dane o dronie
-#define MSG_TYPE_HEARTBEAT  0x02  // Typ wiadomości: status połączenia
+#define PROTOCOL_MAGIC_BYTE 0xAA  
+#define MSG_TYPE_DRONE_DATA 0x01  
+#define MSG_TYPE_HEARTBEAT  0x02  
+#define MSG_TYPE_LOG        0x03  // DODANO: do przesyłania tekstowych logów debugowania
 
 /**
  * @brief Nagłówek ramki komunikacyjnej UART
@@ -14,11 +15,11 @@
 struct __packed IpcHeader {
     uint8_t magic;
     uint8_t type;
-    uint16_t length;
+    uint16_t length; // Długość samego pola 'data' podążającego za nagłówkiem
 };
 
 /**
- * @brief Oblicza prostą sumę kontrolną XOR dla pakietu.
+ * @brief Oblicza sumę kontrolną XOR.
  */
 static inline uint8_t calculate_checksum(const uint8_t *data, uint16_t len) {
     uint8_t checksum = 0;
