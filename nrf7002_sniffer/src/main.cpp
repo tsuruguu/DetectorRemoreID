@@ -12,7 +12,7 @@ extern "C" {
 static const struct device *uart_brain = DEVICE_DT_GET(DT_NODELABEL(uart0));
 K_MUTEX_DEFINE(uart_mutex); // Mutex chroniący dostęp do UART
 
-void send_to_brain(DroneDiscoveryData *data) {
+extern "C" void send_to_brain(DroneDiscoveryData *data) {
     IpcHeader header = {
         .magic = PROTOCOL_MAGIC_BYTE,
         .type = MSG_TYPE_DRONE_DATA,

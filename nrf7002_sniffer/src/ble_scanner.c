@@ -25,9 +25,9 @@ static void device_found(const bt_addr_le_t *addr, int8_t rssi, uint8_t type,
 }
 
 int start_ble_sniffer(void) {
-    struct bt_le_scan_param scan_param = {
+struct bt_le_scan_param scan_param = {
         .type       = BT_LE_SCAN_TYPE_PASSIVE,
-        .options    = BT_LE_SCAN_OPT_CODED, // Zostawiamy samo CODED dla testu
+        .options    = BT_LE_SCAN_OPT_CODED, // Zostawiamy samo CODED
         .interval   = BT_GAP_SCAN_FAST_INTERVAL,
         .window     = BT_GAP_SCAN_FAST_WINDOW,
     };
