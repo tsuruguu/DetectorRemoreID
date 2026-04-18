@@ -1,4 +1,5 @@
 #include <zephyr/net/wifi_mgmt.h>
+#include <zephyr/net/net_mgmt.h>
 #include <zephyr/net/net_if.h>
 #include "drone_id_types.hpp"
 #include <opendroneid.h>
@@ -27,7 +28,8 @@ static void wifi_mgmt_event_handler(struct net_mgmt_event_callback *cb,
         // Gdy skanowanie się skończy, odpalamy je ponownie po krótkiej przerwie
         k_sleep(K_MSEC(500));
         struct wifi_scan_params params = { .scan_type = WIFI_SCAN_TYPE_PASSIVE };
-        net_mgmt_call_wait(NET_REQUEST_WIFI_SCAN, iface, &params, sizeof(params), K_NO_WAIT);
+        // Wewnątrz wifi_mgmt_event_handler (w sekcji NET_EVENT_WIFI_SCAN_DONE)
+        net_mgmt_call(NET_REQUEST_WIFI_SCAN, iface, &params, sizeof(params));
     }
 }
 
@@ -42,5 +44,5 @@ int start_wifi_sniffer(void) {
 
     struct wifi_scan_params params = { .scan_type = WIFI_SCAN_TYPE_PASSIVE };
     printk("Wi-Fi Sniffer active (Passive scan)\n");
-    return net_mgmt_call_wait(NET_REQUEST_WIFI_SCAN, iface, &params, sizeof(params), K_NO_WAIT);
+    return net_mgmt_call(NET_REQUEST_WIFI_SCAN, iface, &params, sizeof(params));
 }

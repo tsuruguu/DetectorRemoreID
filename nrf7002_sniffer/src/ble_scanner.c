@@ -27,17 +27,13 @@ static void device_found(const bt_addr_le_t *addr, int8_t rssi, uint8_t type,
 int start_ble_sniffer(void) {
     struct bt_le_scan_param scan_param = {
         .type       = BT_LE_SCAN_TYPE_PASSIVE,
-        .options    = BT_LE_SCAN_OPT_CODED | BT_LE_SCAN_OPT_EXTENDED,
+        .options    = BT_LE_SCAN_OPT_CODED, // Zostawiamy samo CODED dla testu
         .interval   = BT_GAP_SCAN_FAST_INTERVAL,
         .window     = BT_GAP_SCAN_FAST_WINDOW,
     };
 
     int err = bt_enable(NULL);
-    if (err) {
-        printk("BLE Enable failed: %d\n", err);
-        return err;
-    }
+    if (err) return err;
 
-    printk("BLE Sniffer active (Coded PHY/Extended)\n");
     return bt_le_scan_start(&scan_param, device_found);
 }

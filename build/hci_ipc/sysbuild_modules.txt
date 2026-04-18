@@ -1,1 +1,0 @@
-"nrf":"/Users/dobrawa/Documents/hacknarok/nrf":"/Users/dobrawa/Documents/hacknarok/nrf/sysbuild"

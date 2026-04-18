@@ -21,19 +21,18 @@ void send_to_brain(DroneDiscoveryData *data) {
     
     uint8_t checksum = calculate_checksum((uint8_t*)data, sizeof(DroneDiscoveryData));
     
-    // Blokujemy UART dla jednego wątku
     k_mutex_lock(&uart_mutex, K_FOREVER);
     
-    // Wysyłamy jako jeden ciągły blok danych, aby uniknąć przerw
-    uart_tx(uart_brain, (uint8_t*)&header, sizeof(header), K_MSEC(50));
-    k_msleep(5); // Krótka pauza dla stabilności DMA
-    uart_tx(uart_brain, (uint8_t*)data, sizeof(DroneDiscoveryData), K_MSEC(100));
+    // Używamy 50000 mikrosekund (50ms) zamiast K_MSEC
+    uart_tx(uart_brain, (uint8_t*)&header, sizeof(header), 50000);
+    k_msleep(5); 
+    uart_tx(uart_brain, (uint8_t*)data, sizeof(DroneDiscoveryData), 100000);
     k_msleep(10);
-    uart_tx(uart_brain, &checksum, 1, K_MSEC(50));
+    uart_tx(uart_brain, &checksum, 1, 50000);
 
     k_mutex_unlock(&uart_mutex);
 
-    printk("[%s] Drone Detected: %s | RSSI: %d dBm\n", 
+    printk("[%s] Drone: %s | RSSI: %d dBm\n", 
            (data->protocol_type < 2) ? "Wi-Fi" : "BLE", 
            data->serial_number, data->rssi);
 }
