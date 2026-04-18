@@ -20,13 +20,13 @@ This board serves as the primary hardware interface for eavesdropping on drones'
 
 Despite only using a single board for this role, the nRF54L15 serves as the high-performance computational core of the project.
 
--- **Edge AI (TinyML):** The board leverages its 128 MHz ARM Cortex-M33 core to run specialized neural networks. Fully supported by the Edge Impulse platform, it allows for the deployment of custom models trained to recognize drone presence based on unique signal patterns.
+- **Edge AI (TinyML):** The board leverages its 128 MHz ARM Cortex-M33 core to run specialized neural networks. Fully supported by the Edge Impulse platform, it allows for the deployment of custom models trained to recognize drone presence based on unique signal patterns.
 
--- **RSSI Analysis (Signal Strength):** Since the setup lacks an antenna matrix for Direction Finding (AoA), the system relies on AI-driven RSSI regression. The neural network is trained to learn the non-linear relationship between signal strength and physical distance, filtering out environmental noise and multipath interference.
+- **RSSI Analysis (Signal Strength):** Since the setup lacks an antenna matrix for Direction Finding (AoA), the system relies on AI-driven RSSI regression. The neural network is trained to learn the non-linear relationship between signal strength and physical distance, filtering out environmental noise and multipath interference.
 
--- **Bluetooth 6.0 Ready:** The nRF54L15 hardware supports the latest Channel Sounding features. While typically requiring two boards, it is prepared to perform centimeter-level distance measurements if paired with a compatible device or a modern smartphone.
+- **Bluetooth 6.0 Ready:** The nRF54L15 hardware supports the latest Channel Sounding features. While typically requiring two boards, it is prepared to perform centimeter-level distance measurements if paired with a compatible device or a modern smartphone.
 
--- **RISC-V Coprocessor:** To ensure the main processor isn't bogged down by I/O tasks, the integrated RISC-V coprocessor (FLPR) handles ultra-precise sensor data collection. This is particularly useful for measuring the timing-critical pulses of the HC-SR04 ultrasonic sensor.
+- **RISC-V Coprocessor:** To ensure the main processor isn't bogged down by I/O tasks, the integrated RISC-V coprocessor (FLPR) handles ultra-precise sensor data collection. This is particularly useful for measuring the timing-critical pulses of the HC-SR04 ultrasonic sensor.
 
 
 ## 3. Sensors and Their Role in Drone Detection
