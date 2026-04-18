@@ -44,6 +44,11 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("/Users/dobrawa/Documents/hacknarok/DetectorRemoreID/build/zephyr/subsys/net/lib/sockets/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("/Users/dobrawa/Documents/hacknarok/DetectorRemoreID/build/zephyr/subsys/net/lib/dns/cmake_install.cmake")
 endif()
 

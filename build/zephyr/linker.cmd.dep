@@ -74,6 +74,7 @@ linker.cmd: \
  /Users/dobrawa/Documents/hacknarok/zephyr/include/zephyr/linker/kobject-data.ld \
  /Users/dobrawa/Documents/hacknarok/zephyr/include/zephyr/linker/cplusplus-ram.ld \
  /Users/dobrawa/Documents/hacknarok/DetectorRemoreID/build/zephyr/include/generated/snippets-data-sections.ld \
+ /Users/dobrawa/Documents/hacknarok/zephyr/include/../subsys/net/l2/wifi/wifi_nm.ld \
  /Users/dobrawa/Documents/hacknarok/DetectorRemoreID/build/zephyr/include/generated/snippets-noinit.ld \
  /Users/dobrawa/Documents/hacknarok/DetectorRemoreID/build/zephyr/include/generated/snippets-sections.ld \
  /Users/dobrawa/Documents/hacknarok/zephyr/include/zephyr/linker/intlist.ld \
