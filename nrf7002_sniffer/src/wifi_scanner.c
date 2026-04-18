@@ -1,6 +1,8 @@
 #include <zephyr/net/wifi_mgmt.h>
 #include <zephyr/net/net_if.h>
 #include "drone_id_types.hpp"
+#include <opendroneid.h>
+#include <stdio.h>  
 
 extern void send_to_brain(struct DroneDiscoveryData *data);
 

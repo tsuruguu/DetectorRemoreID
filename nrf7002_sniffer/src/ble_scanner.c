@@ -1,6 +1,7 @@
 #include <zephyr/bluetooth/bluetooth.h>
 #include <zephyr/bluetooth/hci.h>
 #include <zephyr/sys/printk.h>
+#include <opendroneid.h>
 #include "drone_id_types.hpp"
 
 extern void send_to_brain(struct DroneDiscoveryData *data);
