@@ -1,0 +1,4 @@
+# common/lib/opendroneid/zephyr/module.yml
+build:
+  cmake:.
+  kconfig: zephyr/Kconfig

@@ -1,26 +1,24 @@
-#pragma once
-#include "../../common/include/drone_id_types.hpp"
+#ifndef BME280_HANDLER_HPP
+#define BME280_HANDLER_HPP
 
-class Bme280Handler {
+#include <zephyr/drivers/sensor.h>
+
+class BmeHandler {
 public:
-    Bme280Handler() = default;
+    struct EnvData {
+        float temperature;
+        float humidity;
+        float pressure;
+    };
 
-    // Inicjalizacja sensora przez I2C (Zephyr Device Tree)
-    bool init();
-
-    // Pobiera surowe dane i aktualizuje EnvData
-    void update();
-
-    // Główna funkcja "AIoT" - oblicza wpływ pogody na propagację fal
-    float calculate_rf_refraction_index() {
-        // Tu znajdzie się implementacja wzoru na współczynnik N (refraktywność)
-        // N = (77.6 / T) * (P + 4810 * e / T)
-        return 0.0f; 
+    EnvData get_reading(const struct device *dev) {
+        struct sensor_value t, h, p;
+        sensor_sample_fetch(dev);
+        sensor_channel_get(dev, SENSOR_CHAN_AMBIENT_TEMP, &t);
+        sensor_channel_get(dev, SENSOR_CHAN_HUMIDITY, &h);
+        sensor_channel_get(dev, SENSOR_CHAN_PRESS, &p);
+        return {(float)sensor_value_to_double(&t), (float)sensor_value_to_double(&h), (float)sensor_value_to_double(&p)};
     }
-
-    EnvData get_latest_env_data() { return last_data; }
-
-private:
-    EnvData last_data;
-    const struct device *i2c_dev;
 };
+
+#endif

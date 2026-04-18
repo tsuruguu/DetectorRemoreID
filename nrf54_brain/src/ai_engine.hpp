@@ -1,27 +1,36 @@
-#pragma once
-#include "../../common/include/drone_id_types.hpp"
+/* nrf54_brain/src/ai_engine.hpp */
+#ifndef AI_ENGINE_HPP
+#define AI_ENGINE_HPP
 
-enum class ThreatLevel {
-    LOW,        // Normalny lot
-    MEDIUM,     // Nietypowe zachowanie / Anomalia pogodowa
-    HIGH,       // Podejrzenie spoofingu / Kurs kolizyjny
-    CRITICAL    // Naruszenie strefy
-};
+#include <edge-impulse-sdk/classifier/ei_run_classifier.h>
 
 class AiEngine {
 public:
-    AiEngine() = default;
+    AiEngine() { /* Inicjalizacja ewentualnych buforów */ }
 
-    bool load_model(); // Ładowanie wag modelu TinyML
+    /**
+     * @brief Przewiduje odległość drona na podstawie siły sygnału i parametrów pogodowych.
+     * @param rssi Siła sygnału w dBm
+     * @param temp Temperatura z BME280
+     * @param hum Wilgotność z BME280
+     */
+    float predict_distance(int8_t rssi, float temp, float hum) {
+        // Przygotowanie danych wejściowych (zgodnie z kolejnością w Edge Impulse)
+        float features = { (float)rssi, temp, hum };
+        
+        signal_t signal;
+        numpy::signal_from_buffer(features, sizeof(features) / sizeof(features), &signal);
 
-    // GŁÓWNA FUNKCJA: Łączy dane z Remote ID oraz dane pogodowe
-    ThreatLevel analyze_threat(const DroneData& drone, const EnvData& env) {
-        // 1. Normalizacja danych (Input scaling)
-        // 2. Inference (Uruchomienie sieci neuronowej)
-        // 3. Interpretacja wyników
-        return ThreatLevel::LOW;
+        ei_impulse_result_t result = { 0 };
+        EI_IMPULSE_ERROR err = run_classifier(&signal, &result, false);
+
+        if (err!= EI_IMPULSE_OK) {
+            return -1.0f;
+        }
+
+        // Jeśli używasz modelu regresji, wynik jest w result.classification.value
+        return result.classification.value;
     }
-
-private:
-    // Tu będą wskaźniki do interpretera TFLite Micro
 };
+
+#endif
